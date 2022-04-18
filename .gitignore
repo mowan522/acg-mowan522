@@ -38,7 +38,9 @@ cmake-build-release
 
 external/glfwlib
 external/eigen-*
+external/eigenlib
 *.DS_Store  
 build
+task00/build
 
 */main_ans.cpp
