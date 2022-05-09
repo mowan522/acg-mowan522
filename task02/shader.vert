@@ -31,15 +31,15 @@ void main()
     // in GLSL, you can use built-in math function (e.g., sqrt, atan).
     // look at page 56 of https://www.khronos.org/registry/OpenGL/specs/gl/GLSLangSpec.1.20.pdf
 
-    float a = x0/(z0-cam_z_pos);
-    float b = y0/(z0-cam_z_pos);
-    float r= sqrt( a*a + b*b );
-    float theta= atan(r);
-    float f=1;
-    float rd= f * theta/PI*2;
+    
+
+    float r= sqrt(x0*x0+y0*y0+(z0-cam_z_pos)*(z0-cam_z_pos));
+    float theta= atan(sqrt(x0*x0+y0*y0),z0-cam_z_pos);
+    float f= 1 / PI;
+    float rd= f * theta;
     float x1 = rd *x0/sqrt( x0*x0 + y0*y0 );
     float y1 = rd *y0/sqrt( x0*x0 + y0*y0 );
-    float z1=  z0;
+    float z1=  r/2;
 
 
     gl_Position = vec4(x1,y1,z1,1); // homogenious coordinate
