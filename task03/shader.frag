@@ -16,6 +16,19 @@ float sdf_box( vec3 pos, vec3 hsize )
   return length(max(q,0.0)) + min(max(q.x,max(q.y,q.z)),0.0);
 }
 
+//compute the sdf of sphere
+float sdf_sphere( vec3 pos, float s )
+{
+  return length(pos)-s;
+}
+
+//subtract shape1 from shape2
+float opSubtraction( float d1, float d2 )
+{
+    return max(-d1,d2);
+}
+
+
 // Definition of singed distance funtion called from
 float SDF(vec3 pos)
 {
@@ -26,8 +39,27 @@ float SDF(vec3 pos)
   // Look Inigo Quilez's article for hints:
   // https://iquilezles.org/articles/distfunctions/
 
+  //sdf of big sphere
+  float dist=sdf_sphere(pos, 0.8);
+
+  //origin of small spheres is (xs,ys,zs)
+  for ( float xs=-0.8; xs<=0.8;xs+=0.2)
+  {
+    for ( float ys=-0.8; ys<=0.8;ys+=0.2)
+    {
+      for ( float zs=-0.8; zs<=0.8;zs+=0.2)
+      {
+        //compute the sdf of each small sphere and subtract it
+        float dist2=sdf_sphere(pos-vec3(xs,ys,zs),0.12);
+        dist=opSubtraction(dist2,dist);
+      }
+    }
+  }
+
+  return dist;
+
   // for "problem2" the code below is not used.
-  return sdf_box(pos, vec3(0.1,0.2,0.3));
+  //return sdf_box(pos, vec3(0.1,0.2,0.3));
 }
 
 void main()
